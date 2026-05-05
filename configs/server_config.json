@@ -1,0 +1,113 @@
+{
+  "_comment": "TigerGraph GraphRAG server config. Copy to graphrag_service/configs/server_config.json",
+
+  "db_config": {
+    "hostname": "http://tigergraph",
+    "restppPort": "9000",
+    "gsPort": "14240",
+    "username": "tigergraph",
+    "password": "tigergraph",
+    "getToken": false,
+    "default_timeout": 300,
+    "default_mem_threshold": 5000,
+    "default_thread_limit": 8
+  },
+
+  "graphrag_config": {
+    "reuse_embedding": true,
+    "ecc": "http://graphrag-ecc:8001",
+    "chat_history_api": "http://chat-history:8002",
+
+    "_comment_chunker": "Start with semantic. Switch to markdown if your docs are markdown/PDF.",
+    "chunker": "semantic",
+    "extractor": "llm",
+
+    "chunker_config": {
+      "chunk_size": 2048,
+      "overlap_size": 256,
+      "method": "percentile",
+      "threshold": 0.95
+    },
+
+    "_comment_retrieval": "Tune these for your dataset. See tuning guide in README.",
+    "top_k": 5,
+    "num_hops": 2,
+    "num_seen_min": 2,
+    "chunk_only": true,
+    "doc_only": false,
+
+    "community_level": 2,
+    "with_chunk": true,
+
+    "default_concurrency": 10,
+    "load_batch_size": 500
+  },
+
+  "chat-history": {
+    "apiPort": "8002",
+    "dbPath": "chats.db",
+    "dbLogPath": "db.log",
+    "logPath": "requestLogs.jsonl",
+    "conversationAccessRoles": ["superuser", "globaldesigner"]
+  },
+
+  "_comment_llm": "Uncomment ONE llm_config block below that matches your LLM_PROVIDER",
+
+  "llm_config_openai_EXAMPLE": {
+    "embedding_service": {
+      "embedding_model_service": "openai",
+      "model_name": "text-embedding-3-small",
+      "authentication_configuration": {
+        "OPENAI_API_KEY": "YOUR_OPENAI_API_KEY_HERE"
+      }
+    },
+    "completion_service": {
+      "llm_service": "openai",
+      "llm_model": "gpt-4.1-mini",
+      "authentication_configuration": {
+        "OPENAI_API_KEY": "YOUR_OPENAI_API_KEY_HERE"
+      },
+      "model_kwargs": { "temperature": 0 },
+      "prompt_path": "./common/prompts/openai_gpt4/"
+    }
+  },
+
+  "llm_config_gemini_EXAMPLE": {
+    "embedding_service": {
+      "embedding_model_service": "genai",
+      "model_name": "models/gemini-embedding-exp-03-07",
+      "dimensions": 1536,
+      "authentication_configuration": {
+        "GOOGLE_API_KEY": "YOUR_GOOGLE_API_KEY_HERE"
+      }
+    },
+    "completion_service": {
+      "llm_service": "genai",
+      "llm_model": "gemini-2.5-flash",
+      "authentication_configuration": {
+        "GOOGLE_API_KEY": "YOUR_GOOGLE_API_KEY_HERE"
+      },
+      "model_kwargs": { "temperature": 0 },
+      "prompt_path": "./common/prompts/google_gemini/"
+    }
+  },
+
+  "llm_config_groq_EXAMPLE": {
+    "embedding_service": {
+      "embedding_model_service": "openai",
+      "model_name": "mixtral-8x7b-32768",
+      "authentication_configuration": {
+        "OPENAI_API_KEY": ""
+      }
+    },
+    "completion_service": {
+      "llm_service": "groq",
+      "llm_model": "mixtral-8x7b-32768",
+      "authentication_configuration": {
+        "GROQ_API_KEY": "YOUR_GROQ_API_KEY_HERE"
+      },
+      "model_kwargs": { "temperature": 0 },
+      "prompt_path": "./common/prompts/openai_gpt4/"
+    }
+  }
+}

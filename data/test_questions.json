@@ -1,0 +1,34 @@
+[
+  {
+    "question": "What is GraphRAG and how does it differ from standard RAG?",
+    "ground_truth": "GraphRAG augments retrieval-augmented generation with a knowledge graph that captures entity relationships, enabling multi-hop reasoning. Standard RAG retrieves flat text chunks via vector similarity and cannot reason over connections between entities across documents."
+  },
+  {
+    "question": "Why does GraphRAG use fewer tokens than Basic RAG for complex questions?",
+    "ground_truth": "GraphRAG traverses the knowledge graph to retrieve only the most relevant entity-relationship subgraph, producing a focused context. Basic RAG retrieves top-k similar chunks which often include redundant or loosely related text, resulting in larger prompt contexts and higher token usage."
+  },
+  {
+    "question": "What evaluation metrics are used to compare the three pipelines?",
+    "ground_truth": "The pipelines are compared on: tokens used (prompt + completion), cost per query, response latency, and answer accuracy measured via LLM-as-a-Judge (PASS/FAIL) and BERTScore (semantic similarity, with bonus at F1 rescaled ≥ 0.55 or F1 raw ≥ 0.88)."
+  },
+  {
+    "question": "What is multi-hop reasoning and why does it matter?",
+    "ground_truth": "Multi-hop reasoning involves answering questions that require traversing multiple relationship edges in a knowledge graph — for example, finding Entity A's connection to Entity C via Entity B. Vector-only RAG cannot do this; graph traversal handles it naturally."
+  },
+  {
+    "question": "What are the TigerGraph GraphRAG retriever options and when should each be used?",
+    "ground_truth": "The three retrievers are: Hybrid Search (default — combines vector search with graph traversal, best for most questions), Community Search (uses community summaries, best for broad summarization questions), and Sibling Search (retrieves related chunk neighbors, best for document-level context)."
+  },
+  {
+    "question": "What are the key tuning parameters in TigerGraph GraphRAG?",
+    "ground_truth": "Key tuning parameters include: chunker type and chunk_size (controls granularity), top_k (number of seed results), num_hops (graph traversal depth), num_seen_min (minimum node co-occurrence to include), community_level (for community search), and the entity extraction prompt (controls what becomes a graph vertex/edge)."
+  },
+  {
+    "question": "What dataset size is required for Round 1 of the hackathon?",
+    "ground_truth": "Round 1 requires at least 2 million tokens of text-based content. Good dataset choices include PDFs, articles, research papers, transcripts, or support tickets with natural entity connections across documents."
+  },
+  {
+    "question": "How does the LLM-as-a-Judge evaluation work in this hackathon?",
+    "ground_truth": "A free hosted Hugging Face model grades each candidate answer as PASS or FAIL by comparing it to a reference answer for a given question. A pass rate of 90% or above earns bonus points in judging."
+  }
+]
